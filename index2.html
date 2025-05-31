@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letra de Música</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            width: 80%;
+            max-width: 500px;
+        }
+        .container h1 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .container h1::before {
+            content: "🎵";
+            position: absolute;
+            top: 50%;
+            left: -35px;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+        }
+        .description {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+            box-sizing: border-box;
+            outline: none;
+        }
+        textarea::placeholder {
+            color: #aaa;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Escreva Sua Música</h1>
+        <p class="description">Insira sua inspiração musical no campo abaixo. 🎶</p>
+        <textarea placeholder="Digite sua letra de música aqui..."></textarea>
+        <button>Enviar</button>
+        <footer>&copy; 2024 Meu Site de Música</footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Music Writer</title>
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color, #2c3e50);
+            color: var(--text-color, white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        .wave {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23e74c3c' fill-opacity='1' d='M0,32L48,53.3C96,75,192,117,288,122.7C384,128,480,96,576,90.7C672,85,768,107,864,128C960,149,1056,171,1152,165.3C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: var(--subtext-color, #ecf0f1);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: #c0392b;
+        }
+
+        .music-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideUp 1s ease-out;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            font-size: 1em;
+        }
+
+        .control-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 400px;
+            padding: 20px;
+            border: 2px solid #bdc3c7;
+            border-radius: 15px;
+            font-size: 1.1em;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+
+        .floating-notes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .note {
+            position: absolute;
+            font-size: 24px;
+            animation: float 15s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">Modo Claro/Escuro</button>
+
+    <div class="floating-notes">
+        <span class="note" style="left: 10%; animation-delay: 0s;">♪</span>
+        <span class="note" style="left: 30%; animation-delay: 2s;">♫</span>
+        <span class="note" style="left: 50%; animation-delay: 4s;">♩</span>
+        <span class="note" style="left: 70%; animation-delay: 6s;">♪</span>
+        <span class="note" style="left: 90%; animation-delay: 8s;">♫</span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Music Writer</h1>
+            <p>Transforme suas ideias em música</p>
+        </div>
+
+        <div class="music-box">
+            <div class="controls">
+                <button class="control-btn">Salvar</button>
+                <button class="control-btn">Compartilhar</button>
+            </div>
+
+            <textarea placeholder="Escreva sua letra aqui..."></textarea>
+        </div>
+    </div>
+
+    <div class="wave"></div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const isDark = body.style.getPropertyValue('--bg-color') === '#2c3e50';
+            body.style.setProperty('--bg-color', isDark ? '#f0f0f0' : '#2c3e50');
+            body.style.setProperty('--text-color', isDark ? '#333' : 'white');
+            body.style.setProperty('--subtext-color', isDark ? '#666' : '#ecf0f1');
+        }
+    </script>
+</body>
+</html>
